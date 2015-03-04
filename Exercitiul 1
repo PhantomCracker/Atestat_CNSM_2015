@@ -1,0 +1,197 @@
+// Created by PhantomCracker. Copyright(c) PhantomCracker
+
+// Se citeste o matrice patratica de ordin n (n linii si n coloane) cu componente numere intregi.
+// Sa se calculeze si sa se afiseze urmatoarele:
+// a) suma componentelor de pe diagonala principala
+// b) suma componentelor de pe diagonala secundara
+// c) media aritmetica a componentelor matricii
+// d) minimul si maximul componentelor matricii
+// e) suma patratelor componentelor matricii
+// f) suma si produsul componentelor de pe o linie citita x
+// g) sumele componentelor din cele patru zone (triunghiuri) N, S, E, V obtinute prin trasarea diagonalelor; 
+// elementele de pe diagonala nu fac parte din cele patru zone
+// h) sumele elementelor de deasupra si de sub diagonala principala
+// i) sumele elementelor de deasupra si de sub diagonala secundara
+// j) suma componentelor strict pozitive, produsul componentelor strict negative si numarul componentelor nule
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+int matrice[1000][1000];
+int n;
+
+int punctul_a()
+{
+	int suma = 0;
+	for(int i=1; i<=n; i++)
+		suma = suma + matrice[i][i];
+	return suma;
+}
+
+int punctul_b()
+{
+	int suma = 0;
+	for(int i=1; i<=n; i++)
+		suma = suma + matrice[i][n+1-i];
+	return suma;
+}
+
+float punctul_c()
+{
+	float media_aritmetica;
+	int suma = 0;
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=n; j++)
+			suma = suma + matrice[i][j];
+		media_aritmetica = float(suma)/float((n*n));
+		return media_aritmetica;
+}
+
+void punctul_d()
+{
+	int minim = matrice[1][1];
+	int maxim = matrice[1][1];
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=n; j++)
+		{
+			if(matrice[i][j] > maxim)
+				maxim = matrice[i][j];
+			if(matrice[i][j] < minim)
+				minim = matrice[i][j];
+		}
+		cout<<endl<<"Maximul componentelor matricii este "<<maxim;
+		cout<<endl<<"Minimul componentelor matricii este "<<minim;
+}
+
+int punctul_e()
+{
+	int suma = 0;
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=n; j++)
+			suma = suma + matrice[i][j] * matrice[i][j];
+		return suma;
+}
+
+void punctul_f(int x)
+{
+	int suma = 0;
+	int produs = 1;
+	for(int i=1; i<=n; i++)
+	{
+		suma = suma + matrice[x][i];
+		produs = produs * matrice[x][i];
+	}
+	cout<<endl<<"Suma componentelor de pe linia "<<x<<" este "<<suma;
+	cout<<endl<<"Produsul componentelor de pe linia "<<x<<" este "<<produs;
+}
+
+void punctul_g()
+{
+	int suma_nord = 0;
+	int suma_sud = 0;
+	int suma_est = 0;
+	int suma_vest = 0;
+	for(int i=1; i<=n; i++)
+		suma_nord = suma_nord + matrice[1][i];
+	for(int i=1; i<=n; i++)
+		suma_sud = suma_sud + matrice[n][i];
+	for(int i=1; i<=n; i++)
+		suma_est = suma_est + matrice[i][n];
+	for(int i=1; i<=n; i++)
+		suma_vest = suma_vest + matrice[i][1];
+	cout<<endl<<"Suma nord este "<<suma_nord;
+	cout<<endl<<"Suma est este "<<suma_est;
+	cout<<endl<<"Suma vest este "<<suma_vest;
+	cout<<endl<<"Suma sud este "<<suma_sud;
+}
+
+void punctul_h()
+{
+	int suma_top = 0;
+	int suma_bottom = 0;
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=n; j++)
+		{
+			if(i>j)
+				suma_bottom = suma_bottom + matrice[i][j];
+			if(i<j)
+				suma_top = suma_top + matrice[i][j];
+		}
+		cout<<endl<<"Suma componentelor de deasupra diagonalei principale este "<<suma_top;
+		cout<<endl<<"Suma componentelor de sub diagonala principala este "<<suma_bottom;
+
+}
+
+void punctul_i()
+{
+	int suma_top = 0;
+	int suma_bottom = 0;
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=n; j++)
+		{
+			if(i+j < n+1)
+				suma_top = suma_top + matrice[i][j];
+			if(i+j > n+1) 
+				suma_bottom = suma_bottom + matrice[i][j];
+		}
+		cout<<endl<<"Suma componentelor de deasupra diagonalei secundare este "<<suma_top;
+		cout<<endl<<"Suma componentelor de sub diagonala secundara este "<<suma_bottom;
+}
+
+void punctul_j()
+{
+	int suma_pozitive = 0;
+	int produs_negative = 1;
+	int numar_nule = 0;
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=n; j++)
+		{
+			if(matrice[i][j] > 0) 
+				suma_pozitive = suma_pozitive + matrice[i][j];
+			else if(matrice[i][j] < 0) 
+				produs_negative = produs_negative * matrice[i][j];
+			else numar_nule++;
+		}
+		cout<<endl<<"Suma componentelor pozitive este "<<suma_pozitive;
+		if(produs_negative != 1) 
+			cout<<endl<<"Produsul componentelor negative este "<<produs_negative;
+		else cout<<endl<<"Produsul componentelor negative este 0";
+		cout<<endl<<"Numarul de elemente nule este "<<numar_nule; 
+}
+	
+int main()
+{
+	int x;
+	cout<<"Dati numarul de linii si coloane pentru matricea patratica: ";
+	cin>>n;
+	cout<<endl<<"Dati elementele matricii: \n";
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=n; j++)
+			cin>>matrice[i][j];
+		// punctul a)
+		cout<<endl<<"Suma componentelor de pe diagonala principala este "<<punctul_a();
+		// punctul b)
+		cout<<endl<<"Suma componentelor de pe diagonala secundara este "<<punctul_b();
+		// punctul c)
+		cout<<endl<<"Media aritmetica a componentelor matricii este "<<punctul_c();
+		// punctul d)
+		punctul_d();
+		// punctul e)
+		cout<<endl<<"Suma patratelor componentelor matricii este "<<punctul_e();
+		// punctul f)
+		cout<<endl<<"Dati linia la care doriti sa aflati suma si produsul componentelor matricii: ";
+		cin>>x;
+		punctul_f(x);
+		// punctul g)
+		punctul_g();
+		// punctul h)
+		punctul_h();
+		// punctul i)
+		punctul_i();
+		// punctul j)
+		punctul_j();
+
+		cout<<endl;
+		return 0;
+}
