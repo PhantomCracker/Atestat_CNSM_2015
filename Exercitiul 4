@@ -1,0 +1,35 @@
+// Created by PhantomCracker. Copyright(c) PhantomCracker
+
+// Se citeste o matrice oarecare de tip n*m (n linii si m coloane).
+// Sa se calculeze si sa se afiseze sumele de pe fiecare coloana.
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int main()
+{
+	int m, n;
+	cout<<"Dati numarul de linii si coloane: ";
+	cin>>n>>m;
+	int matrice[n+1][m+1];
+	cout<<endl<<"Dati elementele matricii: \n";
+	for(int i=1; i<=n; i++)
+		for(int j=1; j<=m; j++)
+			cin>>matrice[i][j];
+
+		int suma[100];
+		for(int i=1; i<=m; i++)
+		{
+			suma[i] = 0;
+			for(int j=1; j<=n; j++)
+				suma[i] = suma[i] + matrice[j][i];
+		}
+
+		cout<<endl<<"Suma elementelor de pe fiecare coloana a matricii sunt: ";
+		for(int i=1; i<=m; i++)
+			cout<<suma[i]<<" ";
+
+	cout<<endl;
+	return 0;
+}
